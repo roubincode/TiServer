@@ -6,12 +6,14 @@ namespace ETModel
     {
         public byte route;
         public MoveState state;
+        public int frame;
         public Vector3 position; 
         public float yRotation;
-        public Move(byte route, MoveState state, Vector3 position, float yRotation)
+        public Move(byte route, MoveState state, int frame ,Vector3 position, float yRotation)
         {
             this.route = route;
             this.state = state;
+            this.frame = frame;
             this.position = position;
             this.yRotation = yRotation;
         }

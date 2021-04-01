@@ -31,6 +31,7 @@ namespace ETModel
         public long CActorId { get; set; }
 
         public long UnitId { get; set; }
+        public long CharaId { get; set; }
         
         /// <summary>
         /// 默认为假 Session断开/离开房间时触发离线

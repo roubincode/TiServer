@@ -76,6 +76,7 @@ namespace App
 				Game.Scene.AddComponent<UserComponent>();
 				Game.Scene.AddComponent<UnitComponent>();
 				Game.Scene.AddComponent<RoomComponent>();
+				Game.Scene.AddComponent<UnitStateMgrComponent>();
 
 				// 配置管理
 				Game.Scene.AddComponent<ConfigComponent>();
@@ -83,6 +84,8 @@ namespace App
 				Game.Scene.AddComponent<SessionKeyComponent>();
 				Game.Scene.AddComponent<OnlineComponent>();
 				
+				long fixedUpdateInterval = (long)(EventSystem.FixedUpdateTime * 1000);
+                long timing = TimeHelper.ClientNow();
 				while (true)
 				{
 					try
@@ -90,6 +93,11 @@ namespace App
 						Thread.Sleep(1);
 						OneThreadSynchronizationContext.Instance.Update();
 						Game.EventSystem.Update();
+						if (TimeHelper.ClientNow() - timing >= fixedUpdateInterval)
+                        {
+                            timing += fixedUpdateInterval;
+                            Game.EventSystem.FixedUpdate();
+                        }
 					}
 					catch (Exception e)
 					{
