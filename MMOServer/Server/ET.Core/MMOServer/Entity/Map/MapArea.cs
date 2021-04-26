@@ -4,14 +4,14 @@ using System.Threading;
 namespace ETModel
 {
     [ObjectSystem]
-    public class InstanceAwakeSystem : AwakeSystem<Instance,RoomConfig>
+    public class InstanceAwakeSystem : AwakeSystem<MapArea,RoomConfig>
     {
-        public override void Awake(Instance self, RoomConfig config)
+        public override void Awake(MapArea self, RoomConfig config)
         {
             self.Awake(config);
         }
     }
-    public sealed class Instance : Room
+    public sealed class MapArea : Room
     {
 
         public override void Awake(RoomConfig config)

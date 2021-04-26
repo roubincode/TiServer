@@ -5,12 +5,14 @@ using UnityEngine;
 /// 用于实体对象的技能组件基础类,其它类似的还有:</summary>
 namespace ETModel
 {
-    public abstract class SkillsComponet : Component, IAbility
+    public abstract class SkillsComponent : Component, IAbility
     {
         public Entity entity;
         public Level level;
         public Health health;
         public Mana mana;
+
+        protected SkillData[] skillTemplates;
 
         public long skillExperience = 0;
 
@@ -37,7 +39,17 @@ namespace ETModel
         public List<Buff> buffs = new List<Buff>(); 
         // public SyncListBuff buffs = new SyncListBuff(); 
 
-        void Update(){
+        public M2C_StartSkill startSkill = new M2C_StartSkill();
+        public M2C_FinishSkill finishSkill = new M2C_FinishSkill();
+
+        public void Start(){
+            entity = GetParent<Entity>();
+            health = entity.GetComponent<Health>();
+            level = entity.GetComponent<Level>();
+            mana = entity.GetComponent<Mana>();
+        }
+
+        public void Update(){
             // 暂时本地调用，实际是由服务端刷新调用
             CleanupBuffs();
         }
@@ -208,6 +220,13 @@ namespace ETModel
                     return i;
             return -1;
         }
+        public int GetSkillIndexById(int skillId)
+        {
+            for (int i = 0; i < skills.Count; ++i)
+                if (skills[i].skillId == skillId)
+                    return i;
+            return -1;
+        }
 
         // helper function to find a buff index
         public int GetBuffIndexByName(string buffName)
@@ -228,79 +247,6 @@ namespace ETModel
         public bool CastCheckDistance(Skill skill, out Vector3 destination) =>
             skill.CheckDistance(entity, out destination);
 
-        
-        /// <summary>还没有服务端这里模仿一个施放技能的方法 </summary>
-        public void StartCast(Skill skill,int currentSkill)
-        {
-            // 开始施放技能并设置施放结束时间
-            skill.castTimeEnd = NetworkTime.time + skill.castTime;
-            // skill属性改变，保存到List中的引用
-            skills[currentSkill] = skill;
-
-            // 这里是直接调用前端要执行的方法，实际在服务端这是向前端发消息
-            RpcCastStarted(skill);
-        }
-
-        /// <summary>还没有服务端这里模仿一个完成施放技能的方法 </summary>
-        public void FinishCast(Skill skill,int currentSkill)
-        {
-            if (CastCheckSelf(skill, false) && CastCheckTarget(skill))
-            {
-                // 执行技能方法
-                skill.Apply(entity);
-
-                RpcCastFinished(skill);
-
-                // decrease mana in any case
-                mana.current -= skill.manaCosts;
-
-                // skill属性改变，保存到List中的引用
-                // start the cooldown
-                skill.cooldownEnd = NetworkTime.time + skill.cooldown;
-                skills[currentSkill] = skill;
-            }
-            else
-            {
-                currentSkill = -1;
-            }
-        }
-
-        /// <summary>取消技能施放的方法，到后面课时这也只是服务端才需要的方法 </summary>
-        public void CancelCast(bool resetCurrentSkill = true)
-        {
-            if (currentSkill != -1)
-            {
-                Skill skill = skills[currentSkill];
-
-                // skill属性改变，保存到List中的引用
-                skill.castTimeEnd = NetworkTime.time - skill.castTime;
-                skills[currentSkill] = skill;
-                
-                // reset current skill
-                if (resetCurrentSkill)
-                    currentSkill = -1;
-            }
-        }
-
-        /// <summary>前端施放技能调用的方法 </summary>
-        public void RpcCastStarted(Skill skill)
-        {
-            // 判断是否活着
-            if (health.current > 0)
-            {
-                // ...
-            }
-        }
-
-        /// <summary>前端结束施放技能调用的方法 </summary>
-        public void RpcCastFinished(Skill skill)
-        {
-            // 判断是否活着
-            if (health.current > 0)
-            {
-                // ...
-            }
-        }
 
         // helper function to add or refresh a buff
         public void AddOrRefreshBuff(Buff buff)

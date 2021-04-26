@@ -1,28 +1,45 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+
 namespace ETModel
 {
 	public abstract class SkillData 
 	{
-		public long Id { get; set; }
+		public int SkillId { get; set; }
+        public string Class ;
 		public string Name;
-		public LinearInt manaCosts;
-        public LinearFloat castTime;
-        public LinearFloat cooldown;
-        public LinearFloat castRange;
-        public LinearInt requiredLevel; 
-        public LinearLong requiredExperience;
-        public bool learnDefault;
-        public bool cancelCastIfTargetDied;
-        public bool followupDefaultAttack;
-        public bool allowMovement;
-        public int maxLevel;
-        public string requiredWeaponCategory;
-        public bool isPassive;
-        public bool showCastBar;
-        public int damage;
         public string type;
-        public float stunChance; 
-        public float stunTime;  
+		public bool isPassive;
+        public bool learnDefault;
+
+        public LinearInt requiredLevel;
+        public int maxLevel;
+
+        public LinearInt manaCosts;
+		public LinearFloat castTime;
+		public LinearFloat cooldown;
+
+        public LinearInt damage;
+
+        public int physicalDamage;
+        public int magicDamage;
+        public LinearInt healthMaxBonus;
+        public LinearInt manaMaxBonus;
+
+        public string pType;
+
+        public SkillData predecessor; 
+        public int predecessorLevel = 1; 
+		public LinearFloat castRange;
+        public bool cancelCastIfTargetDied;
+        public bool followupDefaultAttack = true;
+        public bool allowMovement;
+        
+        public string requiredWeaponCategory;
+        public LinearLong requiredExperience;
+        
+        public bool showCastBar; 
 
         bool CheckWeapon(Entity caster)
         {
@@ -47,12 +64,10 @@ namespace ETModel
 
         public virtual bool CheckSelf(Entity caster, int skillLevel)
         {
-            // 有武器, no cooldown, hp, mp?
-            // return caster.health.current > 0 &&
-            //     caster.mana.current >= manaCosts.Get(skillLevel) &&
-            //     CheckWeapon(caster);
-
-            return true;
+            // 有武器,hp, mp?
+            return caster.health.current > 0 &&
+                caster.mana.current >= manaCosts.Get(skillLevel);
+                // && CheckWeapon(caster);
         }
 
         // 2. 目标检查
@@ -62,7 +77,35 @@ namespace ETModel
         public abstract bool CheckDistance(Entity caster, int skillLevel, out Vector3 destination);
 
         // 4. 执行技能: deal damage, heal, launch projectiles, etc.
-        public abstract void Apply(Entity caster, int skillLevel);
+        public abstract void Apply(Entity caster,int skillId, int skillLevel);
+
+
+        // caching /////////////////////////////////////////////////////////////////
+        static Dictionary<int, SkillData> cache;
+        public static Dictionary<int, SkillData> dict
+        {
+            get
+            {
+                // not loaded yet?
+                if (cache == null)
+                {
+                    SkillData[] skills = MMOComponent.AllSkill;
+
+                    // 检查重复项，然后添加到缓存
+                    List<string> duplicates = skills.ToList().FindDuplicates(skill => skill.Name);
+                    if (duplicates.Count == 0)
+                    {
+                        cache = skills.ToDictionary(skill => skill.SkillId, skill => skill);
+                    }
+                    else
+                    {
+                        foreach (string duplicate in duplicates)
+                            Log.Error("存在重复的技能数据 name " + duplicate + ". ");
+                    }
+                }
+                return cache;
+            }
+        }
 
 	}
 }

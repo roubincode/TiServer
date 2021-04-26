@@ -44,7 +44,7 @@ namespace ETModel
         /// <summary>
         /// 角色重生后,能力值是否立即为满值
         /// </summary>
-        public bool spawnFull = true;
+        public bool spawnFull = false;
         /// <summary>
         /// 能力值的最大值,基类定义为抽象属性
         /// </summary>
@@ -62,6 +62,8 @@ namespace ETModel
         /// <summary>
         /// 获取所属角色的Level组件,public但不序列化
         /// </summary>
+
+        public Mana mana;
     
         public Level level;
 
@@ -71,7 +73,7 @@ namespace ETModel
         /// <summary>
         /// 可否自动恢复
         /// </summary>
-        public bool canRecover = false;
+        public bool canRecover = true;
         /// <summary>
         /// 单位时间恢复数量，基类定义为抽象属性
         /// </summary>
@@ -89,10 +91,14 @@ namespace ETModel
         /// </summary>
         bool sts = true;
 
-        void Awake(){
+        public TimeInvokeComponent TC;
+
+        public void Start(){
             entity = GetParent<Entity>();
             health = entity.GetComponent<Health>();
             level = entity.GetComponent<Level>();
+            mana = entity.GetComponent<Mana>();
+            TC = entity.GetComponent<TimeInvokeComponent>();
 
             // 重生时满数值
             if (spawnFull) current = max;
@@ -104,31 +110,35 @@ namespace ETModel
             (current != 0 && max != 0) ? (float)current / (float)max : 0;
 
 
-        void Update()
+        public void Update()
         {
+            if(health ==null) return;
+            
             // 如果能力值可恢复，并且当前能力值小于最大能力值
             if(canRecover && current < max){
                 // 如果战斗状态发生改变，调用DoRepeat方法
                 if(sts != entity.inbattle){
                     sts = entity.inbattle;
-                    DoRepeat("Recover");
+                    DoRepeat();
                 } 
             }
         }
 
         // DoRepeat /////////////////////////////////////////////////////////////
         /// -> <summary>根据战斗状态切换恢复间隔频率，执行InvokeRepeating。</summary>
-        private void DoRepeat(string recover){
+        private void DoRepeat(){
             // 根据战斗状态切换恢复间隔频率
             int rate;
             if(sts) rate = battleTimeRate;
             else rate = timeRate;
             
             // 取消已有的Invoke方法，并用新的间隔频率执行InvokeRepeating
-            // if(IsInvoking(recover))
-            //     CancelInvoke(recover);
-            // InvokeRepeating(recover, 0, rate);     
+            if(TC.IsInvoking(Recover))
+                TC.CancelInvoke(Recover);
+            TC.InvokeRepeating(Recover, rate);  
         }
+
+        
 
         // Recover /////////////////////////////////////////////////////////////
         /// -> <summary>自动恢复，间隔调用的方法。</summary>
@@ -136,6 +146,9 @@ namespace ETModel
         {
             if (health.current > 0)
                 current += recovery;
+
+            if (current >= max) TC.CancelInvoke(Recover);
+            //Log.Info($"角色的生命值：{health.current.ToString()}/{health.max.ToString()}");
         }
 
     }

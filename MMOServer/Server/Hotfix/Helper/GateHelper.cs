@@ -35,9 +35,9 @@ namespace ETHotfix
             config.MinLevel = 1;
             config.MaxLevel = 10;
             config.removable = false;
-            config.reloadMapScene = 1001;
+            config.reloadMapScene = 7001;
             config.Multiples = 1;
-            config.maps = new long[3]{2001,2002,2003};
+            config.maps = new long[3]{7001,7002,7003};
             config.minNumber = 0; //0为不限最大人数
             config.maxNumber = 0; //0为不限最少人数
             return config;

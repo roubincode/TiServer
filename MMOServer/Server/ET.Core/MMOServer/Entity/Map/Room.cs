@@ -62,10 +62,10 @@ namespace ETModel
         public long roomId;
         
         /// 当前房间的所有所有玩家 空位为null
-        public Dictionary<long,Gamer> gamers= new Dictionary<long, Gamer>();
+        public Dictionary<long,Player> players= new Dictionary<long, Player>();
         
         /// 房间中玩家的数量
-        public int Count { get { return gamers.Count; } }
+        public int Count { get { return players.Count; } }
 
         //清房间waiting的cts
         public CancellationTokenSource CancellationTokenSource;
@@ -85,12 +85,12 @@ namespace ETModel
 
             base.Dispose();
 
-            for (int i = 0; i < gamers.Count; i++)
+            for (int i = 0; i < players.Count; i++)
             {
-                if (gamers[i] != null)
+                if (players[i] != null)
                 {
-                    gamers[i].Dispose();
-                    gamers[i] = null;
+                    players[i].Dispose();
+                    players[i] = null;
                 }
             }
         }

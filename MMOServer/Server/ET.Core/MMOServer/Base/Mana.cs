@@ -3,6 +3,24 @@
 // 角色蓝量组件
 namespace ETModel
 {
+    [ObjectSystem]
+    public class ManaStartSystem : StartSystem<Mana>
+    {
+        public override void Start(Mana self)
+        {
+            self.Start();
+        }
+    }
+
+    [ObjectSystem]
+    public class ManaUpdateComponent : UpdateSystem<Mana>
+    {
+        public override void Update(Mana self)
+        {
+            self.Update();
+        }
+    }
+
     public class Mana : Ability
     {
         public LinearInt baseMana = new LinearInt{baseValue=100};
@@ -54,8 +72,9 @@ namespace ETModel
         }
 
         // 如果设置为非重生满能力值，这里设置重生蓝量为10
-        void Start(){
-            if(!spawnFull) current = 10;
+        public new void Start(){
+            base.Start();
+            if(!spawnFull) current = 50;
         }
     }
 }
