@@ -41,7 +41,7 @@ namespace ETHotfix
 
             // 移动速度 = 此帧移动的距离/时间(服务器上定的是1/60秒)
             float m_dis = Vector3.Distance(self.unit.Position, self.targetMove.position);
-            self.velocity = m_dis / EventSystem.FixedUpdateTimeDelta;
+            self.velocity = m_dis / EventSystem.FixedUpdateTime;
             //Log.Info(to.ToString()+"/"+self.velocity.ToString());
             
             // 移动距离过大或过小都不更新移动位置
@@ -71,7 +71,7 @@ namespace ETHotfix
             if (distance >15) return;
 
             // 目标move的位置与角度插值
-            self.unit.Rotation = Quaternion.Slerp(self.unit.Rotation, self.yEuler, EventSystem.FixedUpdateTimeDelta * 15);
+            self.unit.Rotation = Quaternion.Slerp(self.unit.Rotation, self.yEuler, EventSystem.FixedUpdateTime * 15);
             if(self.unit.player!=null) self.unit.player.Rotation = self.unit.Rotation;
 
             float amount = (timeNow - self.startTime) * 1f / self.needTime;

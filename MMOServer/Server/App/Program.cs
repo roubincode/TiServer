@@ -77,6 +77,8 @@ namespace App
 				Game.Scene.AddComponent<UnitComponent>();
 				Game.Scene.AddComponent<RoomComponent>();
 				Game.Scene.AddComponent<UnitStateMgrComponent>();
+				Game.Scene.AddComponent<CommandSimulaterComponent>();
+				Game.Scene.AddComponent<MMOComponent>();
 
 				// 配置管理
 				Game.Scene.AddComponent<ConfigComponent>();
