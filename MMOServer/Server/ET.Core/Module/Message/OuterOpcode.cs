@@ -13,14 +13,38 @@ namespace ETModel
 	[Message(OuterOpcode.CreateUnits_M2C)]
 	public partial class CreateUnits_M2C : IActorMessage {}
 
-	[Message(OuterOpcode.Sync_MoveMessage)]
-	public partial class Sync_MoveMessage : IActorMessage {}
+	[Message(OuterOpcode.C2M_SelectTarget)]
+	public partial class C2M_SelectTarget : IActorLocationMessage {}
 
-	[Message(OuterOpcode.State_FrameMessage)]
-	public partial class State_FrameMessage : IActorLocationMessage {}
+	[Message(OuterOpcode.M2C_SelectTarget)]
+	public partial class M2C_SelectTarget : IActorMessage {}
 
-	[Message(OuterOpcode.MoveInfo)]
-	public partial class MoveInfo {}
+	[Message(OuterOpcode.M2C_CreateSprites)]
+	public partial class M2C_CreateSprites : IActorMessage {}
+
+	[Message(OuterOpcode.SpriteInfo)]
+	public partial class SpriteInfo {}
+
+	[Message(OuterOpcode.C2M_Input_Move)]
+	public partial class C2M_Input_Move : IActorLocationMessage {}
+
+	[Message(OuterOpcode.M2C_Result_Move)]
+	public partial class M2C_Result_Move : IActorMessage {}
+
+	[Message(OuterOpcode.C2M_Input_UseSkill)]
+	public partial class C2M_Input_UseSkill : IActorLocationMessage {}
+
+	[Message(OuterOpcode.M2C_Result_UseSkill)]
+	public partial class M2C_Result_UseSkill : IActorMessage {}
+
+	[Message(OuterOpcode.M2C_StartSkill)]
+	public partial class M2C_StartSkill : IActorMessage {}
+
+	[Message(OuterOpcode.M2C_FinishSkill)]
+	public partial class M2C_FinishSkill : IActorMessage {}
+
+	[Message(OuterOpcode.Vector3Info)]
+	public partial class Vector3Info {}
 
 //获取大厅玩家信息请求
 	[Message(OuterOpcode.GetUserInfo_InLobby_C2G)]
@@ -89,27 +113,35 @@ namespace ETModel
 		 public const ushort EnterMap_C2G = 101;
 		 public const ushort EnterMap_G2C = 102;
 		 public const ushort CreateUnits_M2C = 103;
-		 public const ushort Sync_MoveMessage = 104;
-		 public const ushort State_FrameMessage = 105;
-		 public const ushort MoveInfo = 106;
-		 public const ushort GetUserInfo_InLobby_C2G = 107;
-		 public const ushort GetUserInfo_InLobby_G2C = 108;
-		 public const ushort Actor_Test = 109;
-		 public const ushort C2M_TestRequest = 110;
-		 public const ushort M2C_TestResponse = 111;
-		 public const ushort Actor_TransferRequest = 112;
-		 public const ushort Actor_TransferResponse = 113;
-		 public const ushort C2G_EnterMap = 114;
-		 public const ushort G2C_EnterMap = 115;
-		 public const ushort UnitInfo = 116;
-		 public const ushort M2C_CreateUnits = 117;
-		 public const ushort Frame_ClickMap = 118;
-		 public const ushort State_ClickMap = 119;
-		 public const ushort M2C_PathfindingResult = 120;
-		 public const ushort C2R_Ping = 121;
-		 public const ushort R2C_Ping = 122;
-		 public const ushort G2C_Test = 123;
-		 public const ushort C2M_Reload = 124;
-		 public const ushort M2C_Reload = 125;
+		 public const ushort C2M_SelectTarget = 104;
+		 public const ushort M2C_SelectTarget = 105;
+		 public const ushort M2C_CreateSprites = 106;
+		 public const ushort SpriteInfo = 107;
+		 public const ushort C2M_Input_Move = 108;
+		 public const ushort M2C_Result_Move = 109;
+		 public const ushort C2M_Input_UseSkill = 110;
+		 public const ushort M2C_Result_UseSkill = 111;
+		 public const ushort M2C_StartSkill = 112;
+		 public const ushort M2C_FinishSkill = 113;
+		 public const ushort Vector3Info = 114;
+		 public const ushort GetUserInfo_InLobby_C2G = 115;
+		 public const ushort GetUserInfo_InLobby_G2C = 116;
+		 public const ushort Actor_Test = 117;
+		 public const ushort C2M_TestRequest = 118;
+		 public const ushort M2C_TestResponse = 119;
+		 public const ushort Actor_TransferRequest = 120;
+		 public const ushort Actor_TransferResponse = 121;
+		 public const ushort C2G_EnterMap = 122;
+		 public const ushort G2C_EnterMap = 123;
+		 public const ushort UnitInfo = 124;
+		 public const ushort M2C_CreateUnits = 125;
+		 public const ushort Frame_ClickMap = 126;
+		 public const ushort State_ClickMap = 127;
+		 public const ushort M2C_PathfindingResult = 128;
+		 public const ushort C2R_Ping = 129;
+		 public const ushort R2C_Ping = 130;
+		 public const ushort G2C_Test = 131;
+		 public const ushort C2M_Reload = 132;
+		 public const ushort M2C_Reload = 133;
 	}
 }
