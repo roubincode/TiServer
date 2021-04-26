@@ -14,10 +14,10 @@ namespace ETModel
 
 	public sealed class EventSystem
 	{
-		private static float fixedUpdateTimeDelta = 1f / 60;
+		private static float FixedUpdateTimeDelta = 1f / 60;
 		public static float FixedUpdateTime
         {
-            get{ return fixedUpdateTimeDelta;}
+            get{ return FixedUpdateTimeDelta;}
 		}
 		private readonly Dictionary<long, Component> allComponents = new Dictionary<long, Component>();
 

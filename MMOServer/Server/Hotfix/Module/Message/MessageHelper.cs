@@ -10,7 +10,7 @@ namespace ETHotfix
 			ActorMessageSenderComponent actorLocationSenderComponent = Game.Scene.GetComponent<ActorMessageSenderComponent>();
 			foreach (Unit unit in units)
 			{
-				ActorMessageSender actorMessageSender = actorLocationSenderComponent.Get(unit.GActorId);
+				ActorMessageSender actorMessageSender = actorLocationSenderComponent.Get(unit.player.GActorId);
 				actorMessageSender.Send(message);
 			}
 		}
