@@ -8,25 +8,42 @@ namespace ETModel
 	public class SkillConfig: IConfig
 	{
 		public long Id { get; set; }
-		public string Name;
+        public string Class ;
+        public string Name ;
+		public string type;
+
+        public bool isPassive;
+        public bool learnDefault;
+
+        public int requiredLevel;
+        public int maxLevel;
+
+        public int manaCosts;
 		public float castTime;
 		public float cooldown;
+
+        public int baseDamage;
+        public int damage;
+
+        public int physicalDamage;
+        public int healthMaxBonus;
+
+        public string pType;
+
 		public float castRange;
-		public int manaCosts;
-        public bool learnDefault;
         public bool cancelCastIfTargetDied;
         public bool followupDefaultAttack;
         public bool allowMovement;
-        public int maxLevel;
+        
         public string requiredWeaponCategory;
-        public int requiredLevel;
         public long requiredExperience;
-        public bool isPassive;
+        
         public bool showCastBar;
-        public int damage;
-        public string type;
+        
+        
         public float stunChance; 
         public float stunTime;  
 
+        public int SkillId { get; set; }
 	}
 }
