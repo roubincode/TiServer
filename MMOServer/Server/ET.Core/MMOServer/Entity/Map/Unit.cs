@@ -20,17 +20,12 @@ namespace ETModel
 
 	public sealed class Unit: Entity
 	{
-		public Gamer gamer {get;set;}
+		public long UserId { get;set; }
+        public long CharaId { get; set; }
+
+		public Player player {get;set;}
 		public Room room {get;set;}
-		public long GActorId {get;set;}
-
-		public long CActorId {get;set;}
-		public UnitType UnitType { get; private set; }
-		
-		public Vector3 Position { get; set; }
-
-		public Quaternion Rotation { get; set; } 
-            
+		public UnitType UnitType { get; private set; }   
 		
 		public void Awake(UnitType unitType)
 		{

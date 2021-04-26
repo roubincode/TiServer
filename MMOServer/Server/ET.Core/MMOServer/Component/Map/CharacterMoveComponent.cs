@@ -32,6 +32,7 @@ namespace ETModel
         public MoveType moveType;
         public Unit unit;
 
+        public float velocity;
         public Vector3 targetPosition;
         public Vector3 startPosition;
         public float moveSpeed;
@@ -53,14 +54,24 @@ namespace ETModel
 
         public int rubbered = 0;
 
-        public float baseMoveSpeed = 5f;// 这个应该从配置表里读
+        public int selfFrame = 0;
+        public int tempFrame = 0;
+
+        public int lastFrame = 0;
+
+        public float baseMoveSpeed = 5f; 
 
         public void Awake()
         {
-            unit = GetParent<Unit>();
-
+            this.unit = this.GetParent<Unit>();
+            this.startPosition = Vector3.zero;
+            this.targetPosition = Vector3.zero;
         }
 
+        public bool IsMoving()
+        {
+            return velocity > 0;
+        }
       
     }
 }

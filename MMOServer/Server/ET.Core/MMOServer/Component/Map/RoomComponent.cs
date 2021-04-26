@@ -15,7 +15,7 @@ namespace ETModel
         /// <summary>
         /// 所有游戏中的副本房间
         /// </summary>
-        public readonly Dictionary<long, Instance> copyRooms = new Dictionary<long, Instance>();
+        public readonly Dictionary<long, MapArea> copyRooms = new Dictionary<long, MapArea>();
 
         /// <summary>
         /// 所有pvp战场房间
@@ -30,8 +30,8 @@ namespace ETModel
         /// <summary>
         /// 匹配中的玩家队列
         /// </summary>
-        public readonly Queue<Gamer> pvpQueue = new Queue<Gamer>();
-        public readonly Queue<Gamer> battleQueue = new Queue<Gamer>();
+        public readonly Queue<Player> pvpQueue = new Queue<Player>();
+        public readonly Queue<Player> battleQueue = new Queue<Player>();
 
         public readonly Queue<long> worldMapQueue = new Queue<long>();
     }

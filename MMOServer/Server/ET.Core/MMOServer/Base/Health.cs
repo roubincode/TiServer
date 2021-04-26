@@ -4,6 +4,24 @@
 
 namespace ETModel
 {
+    [ObjectSystem]
+    public class HealthStartSystem : StartSystem<Health>
+    {
+        public override void Start(Health self)
+        {
+            self.Start();
+        }
+    }
+
+    [ObjectSystem]
+    public class HealthUpdateComponent : UpdateSystem<Health>
+    {
+        public override void Update(Health self)
+        {
+            self.Update();
+        }
+    }
+
     public class Health : Ability
     {
         public LinearInt baseHealth = new LinearInt{baseValue=100};
@@ -11,9 +29,9 @@ namespace ETModel
         // 缓存实现IHealthBonus的组件实例
         // 角色能力系统中的血蓝，攻防能力的属性值来自于装备系统，技能buff系统，宠物坐骑系统组件
         // 角色装备组件，角色技能等组件都继承了能力接口与战斗接口，我们可能通过接口来获取到他们，并调用接口方法
-        IManaBonus[] _bonusComponents;
-        IManaBonus[] bonusComponents =>
-            _bonusComponents ?? (_bonusComponents = this.GetParent<Entity>().GetComponents<IManaBonus>());
+        IHealthBonus[] _bonusComponents;
+        IHealthBonus[] bonusComponents =>
+            _bonusComponents ?? (_bonusComponents = this.GetParent<Entity>().GetComponents<IHealthBonus>());
 
         // 计算总蓝量
         // 这里定每点耐力30生命
@@ -56,8 +74,9 @@ namespace ETModel
         }
 
         // 如果设置为非重生满能力值，这里设置重生血量为20
-        void Start(){
-            if(!spawnFull) current = 20;
+        public new void Start(){  
+            base.Start();
+            if(!spawnFull) current = 50;
         }
 
     }

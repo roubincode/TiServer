@@ -7,17 +7,25 @@ namespace ETModel
 {
     public struct Skill
     {
-        public long skilid;
+        public int skillId;
         public int level; 
         public double castTimeEnd; 
         public double cooldownEnd; 
 
-        public SkillData data;
-
-        public Skill(SkillData _data)
+        // 方便访问技能资源数据对象的包装
+        public SkillData data
         {
-            data = _data;
-            skilid = data.Id;
+            get
+            {
+                if (!SkillData.dict.ContainsKey(skillId))
+                    throw new KeyNotFoundException("没有这个技能数据SkillData， hash=" + skillId + ". ");
+                return SkillData.dict[skillId];
+            }
+        }
+
+        public Skill(SkillData data)
+        {
+            skillId = data.SkillId;
             // 默认学会的技能等级显示为1
             level = data.learnDefault ? 1 : 0;
 
@@ -29,8 +37,13 @@ namespace ETModel
         public float cooldown => data.cooldown.Get(level);
         public float castRange => data.castRange.Get(level);
         public int manaCosts => data.manaCosts.Get(level);
+        public int damage => data.damage.Get(level);
+        public int physicalDamage => data.physicalDamage;
+        public int magicDamage => data.magicDamage;
         public bool followupDefaultAttack => data.followupDefaultAttack;
         public bool learnDefault => data.learnDefault;
+        public SkillData predecessor => data.predecessor;
+         public int predecessorLevel => data.predecessorLevel;
         public bool showCastBar => data.showCastBar;
         public bool cancelCastIfTargetDied => data.cancelCastIfTargetDied;
         public bool allowMovement => data.allowMovement;
@@ -46,7 +59,7 @@ namespace ETModel
         }
         public bool CheckTarget(Entity caster) { return data.CheckTarget(caster); }
         public bool CheckDistance(Entity caster, out Vector3 destination) { return data.CheckDistance(caster, level, out destination); }
-        public void Apply(Entity caster) { data.Apply(caster, level); }
+        public void Apply(Entity caster) { data.Apply(caster,skillId, level); }
 
     
         // 离技能施放时间结束还有多少时间

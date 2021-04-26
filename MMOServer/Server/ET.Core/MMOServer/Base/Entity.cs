@@ -1,16 +1,39 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections.Generic;
-using System.Linq;
+using MongoDB.Bson.Serialization.Attributes;
 namespace ETModel
 {
     public abstract partial class Entity : ComponentWithId
     {
-        public SkillsComponet skills;
-        // public Combat combat;
-        // public Movement movement;
+        public Unit Unit;
+        public Entity target { get; set; }
+
+        public SkillsComponent skillsCom;
+        public CharacterMoveComponent movement;
+        public CombatComponent combat;
         // public Inventory baseInventory;
         // public Equipment baseEquipment;
+        // public Experience experience;
+
+        // public PlayerInventory inventory => baseInventory as PlayerInventory;
+        // public PlayerEquipment equipment => baseEquipment as PlayerEquipment;
+
+        [BsonIgnore]
+        public Bounds bounds;
+
+        /// <summary>
+        /// 角色等级  
+        /// </summary>
+        public Level level;
+        /// <summary>
+        /// 角色血量
+        /// </summary>
+        public Health health;
+        /// <summary>
+        /// 角色蓝量  
+        /// </summary>
+        public Mana mana;
 
         /// <summary>
         /// 角色眩晕结束时间
@@ -37,27 +60,21 @@ namespace ETModel
         }
 
         /// <summary>
-        /// 角色等级  
-        /// </summary>
-        public Level level;
-        /// <summary>
-        /// 角色血量
-        /// </summary>
-        public Health health;
-        /// <summary>
-        /// 角色蓝量  
-        /// </summary>
-        public Mana mana;  
-        
-        /// <summary>
         /// 角色动作状态
         /// </summary>
         string _state = "IDLE";
-        public string state => _state;
-        
+        public string state{
+            get { return _state; } 
+            set { _state = value; }
+        }
 
-        public Entity target { get; set; }
+        public float attackToMoveRangeRatio = 0.8f;
+        public int useSkillWhenCloser = -1;
 
+        [BsonIgnore]
+        public Vector3 Position { get; set; }
+        [BsonIgnore]
+		public Quaternion Rotation { get; set; } 
 
         // CanAttack /////////////////////////////////////////////////////////////
         /// -><summary>判断是否可攻击目标。主要是判断双方都存活，并且不是攻击自己</summary>

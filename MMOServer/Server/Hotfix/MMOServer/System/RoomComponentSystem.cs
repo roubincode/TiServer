@@ -25,7 +25,7 @@ namespace ETHotfix
             // }
 
             // 这里暂时只初始化 黎明镇的地图房间
-            RoomConfig config = GateHelper.GetMapConfig(1001);
+            RoomConfig config = GateHelper.GetMapConfig(7001);
             Room daybreak = ComponentFactory.Create<Room,RoomConfig>(config);
 
             await daybreak.AddComponent<MailBoxComponent>().AddLocation();
@@ -43,7 +43,7 @@ namespace ETHotfix
             Room room;
             if (!self.mapRooms.TryGetValue(roomId, out room))
             {
-                Log.Error("玩家不在已经开始游戏的房间中");
+                Log.Error("玩家不在游戏的房间中");
             }
             return room;
         }
@@ -51,9 +51,9 @@ namespace ETHotfix
         /// <summary>
         /// 返回副本房间
         /// </summary>
-        public static Instance GetCopyRoom(this RoomComponent self, long roomId)
+        public static MapArea GetCopyRoom(this RoomComponent self, long roomId)
         {
-            Instance room;
+            MapArea room;
             if (!self.copyRooms.TryGetValue(roomId, out room))
             {
                 Log.Error("玩家不在待机的房间中");
@@ -61,34 +61,12 @@ namespace ETHotfix
             return room;
         }
 
-        
-        /// <summary>
-        /// 加入房间
-        /// </summary>
-        public static void JoinRoom(this RoomComponent self, Room room, Gamer gamer)
-        {
-            if(gamer == null)
-            {
-                return;
-            }
-
-            room.Add(gamer);
-            //房间广播
-            Log.Info($"玩家{gamer.UserId}进入房间");
-
-            //向Gate发送消息，玩家进入地图房间
-            // ...
-            // 向玩家客户端发送消息进入游戏地图
-            // ...
-        }
-
-
         /// <summary>
         /// 匹配队列广播
         /// </summary>
-        public static void QueueBroadcast(this RoomComponent self,Queue<Gamer> matchingQueue, IActorMessage message)
+        public static void QueueBroadcast(this RoomComponent self,Queue<Player> matchingQueue, IActorMessage message)
         {
-            foreach (Gamer gamer in matchingQueue)
+            foreach (Player gamer in matchingQueue)
             {
                 //向客户端User发送Actor消息
                 ActorMessageSenderComponent actorProxyComponent = Game.Scene.GetComponent<ActorMessageSenderComponent>();

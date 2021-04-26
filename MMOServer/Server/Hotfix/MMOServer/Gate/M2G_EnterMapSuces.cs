@@ -11,7 +11,7 @@ namespace ETHotfix
             // gate更新ActorID,UnitId
             user.ActorId = message.GamerId;
             user.UnitId = message.UnitId;
-            Log.Info($"玩家{user.UserId}匹配成功 更新客户端Actor转发向Gamer");
+            Log.Info($"玩家{user.UserId}匹配成功 更新客户端Actor转发向Unit");
 
             await ETTask.CompletedTask;
         }

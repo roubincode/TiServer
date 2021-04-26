@@ -14,12 +14,6 @@ namespace ETModel
         /// </summary>
         public int max = 1;
 
-        //编辑器模式下OnValidate 仅在下面两种情况下被调用：
-        //脚本被加载时
-        //Inspector 中的任何值被修改时
-        void OnValidate()
-        {
-            current = Mathf.Clamp(current, 1, max);
-        }
+  
     }
 }
