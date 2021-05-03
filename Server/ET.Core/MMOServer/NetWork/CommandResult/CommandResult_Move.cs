@@ -17,5 +17,7 @@ namespace ETModel
         public MoveState state;
         public Vector3 movePosition; 
         public float yRotation;
+        public float nSpeed;
+        public float jumpLeg;
     }
 }

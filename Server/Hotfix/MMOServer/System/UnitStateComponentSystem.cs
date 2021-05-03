@@ -71,13 +71,15 @@ namespace ETHotfix
                         // 输出数据传入CharacterMovementComponet
                         // 服务器上要有一份同样的角色移动数据，用于更新服务端的移动状态
                         Move move = new Move((MoveState)result_Move.state,result_Move.frame,
-												result_Move.movePosition, result_Move.yRotation);
+												result_Move.movePosition, result_Move.yRotation,result_Move.nSpeed,result_Move.jumpLeg);
                         unitStateComponent.unit.GetComponent<CharacterMoveComponent>().TryMove(move);
                         unitStateComponent.result_Move.UnitId = unitStateComponent.unit.Id;
                         unitStateComponent.result_Move.Frame = frame;
                         unitStateComponent.result_Move.State = (StateInfo)result_Move.state;
                         unitStateComponent.result_Move.MovePosition = result_Move.movePosition.ToV3Info();
                         unitStateComponent.result_Move.YRotation = result_Move.yRotation;
+                        unitStateComponent.result_Move.NSpeed = result_Move.nSpeed;
+                        unitStateComponent.result_Move.JumpLeg = result_Move.jumpLeg;
                         
                         // 广播移动消息
                         MapHelper.Broadcast(unitStateComponent.result_Move,unitStateComponent.unit.Id);
