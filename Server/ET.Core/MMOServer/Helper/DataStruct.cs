@@ -8,12 +8,17 @@ namespace ETModel
         public int frame;
         public Vector3 position; 
         public float yRotation;
-        public Move(MoveState state, int frame ,Vector3 position, float yRotation)
+        public float nSpeed;
+        public float jumpLeg;
+        public Move(MoveState state, int frame ,Vector3 position,
+                     float yRotation,float nSpeed,float jumpLeg)
         {
             this.state = state;
             this.frame = frame;
             this.position = position;
             this.yRotation = yRotation;
+            this.nSpeed = nSpeed;
+            this.jumpLeg  = jumpLeg;
         }
     }
 

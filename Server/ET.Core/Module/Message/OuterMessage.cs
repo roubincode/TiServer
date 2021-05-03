@@ -906,6 +906,22 @@ namespace ETModel {
       }
     }
 
+    private float nSpeed_;
+    public float NSpeed {
+      get { return nSpeed_; }
+      set {
+        nSpeed_ = value;
+      }
+    }
+
+    private float jumpLeg_;
+    public float JumpLeg {
+      get { return jumpLeg_; }
+      set {
+        jumpLeg_ = value;
+      }
+    }
+
     public void WriteTo(pb::CodedOutputStream output) {
       if (UnitId != 0L) {
         output.WriteRawTag(8);
@@ -926,6 +942,14 @@ namespace ETModel {
       if (YRotation != 0F) {
         output.WriteRawTag(45);
         output.WriteFloat(YRotation);
+      }
+      if (NSpeed != 0F) {
+        output.WriteRawTag(53);
+        output.WriteFloat(NSpeed);
+      }
+      if (JumpLeg != 0F) {
+        output.WriteRawTag(61);
+        output.WriteFloat(JumpLeg);
       }
       if (RpcId != 0) {
         output.WriteRawTag(208, 5);
@@ -967,6 +991,12 @@ namespace ETModel {
       if (YRotation != 0F) {
         size += 1 + 4;
       }
+      if (NSpeed != 0F) {
+        size += 1 + 4;
+      }
+      if (JumpLeg != 0F) {
+        size += 1 + 4;
+      }
       return size;
     }
 
@@ -975,6 +1005,8 @@ namespace ETModel {
       frame_ = 0;
       if (movePosition_ != null) MessagePool.Instance.Recycle(movePosition_); movePosition_ = null;
       yRotation_ = 0f;
+      nSpeed_ = 0f;
+      jumpLeg_ = 0f;
       rpcId_ = 0;
       actorId_ = 0;
       id_ = 0;
@@ -1005,6 +1037,14 @@ namespace ETModel {
           }
           case 45: {
             YRotation = input.ReadFloat();
+            break;
+          }
+          case 53: {
+            NSpeed = input.ReadFloat();
+            break;
+          }
+          case 61: {
+            JumpLeg = input.ReadFloat();
             break;
           }
           case 720: {
@@ -1085,6 +1125,22 @@ namespace ETModel {
       }
     }
 
+    private float nSpeed_;
+    public float NSpeed {
+      get { return nSpeed_; }
+      set {
+        nSpeed_ = value;
+      }
+    }
+
+    private float jumpLeg_;
+    public float JumpLeg {
+      get { return jumpLeg_; }
+      set {
+        jumpLeg_ = value;
+      }
+    }
+
     public void WriteTo(pb::CodedOutputStream output) {
       if (UnitId != 0L) {
         output.WriteRawTag(8);
@@ -1105,6 +1161,14 @@ namespace ETModel {
       if (YRotation != 0F) {
         output.WriteRawTag(45);
         output.WriteFloat(YRotation);
+      }
+      if (NSpeed != 0F) {
+        output.WriteRawTag(53);
+        output.WriteFloat(NSpeed);
+      }
+      if (JumpLeg != 0F) {
+        output.WriteRawTag(61);
+        output.WriteFloat(JumpLeg);
       }
       if (ActorId != 0L) {
         output.WriteRawTag(232, 5);
@@ -1139,6 +1203,12 @@ namespace ETModel {
       if (YRotation != 0F) {
         size += 1 + 4;
       }
+      if (NSpeed != 0F) {
+        size += 1 + 4;
+      }
+      if (JumpLeg != 0F) {
+        size += 1 + 4;
+      }
       return size;
     }
 
@@ -1147,6 +1217,8 @@ namespace ETModel {
       frame_ = 0;
       if (movePosition_ != null) MessagePool.Instance.Recycle(movePosition_); movePosition_ = null;
       yRotation_ = 0f;
+      nSpeed_ = 0f;
+      jumpLeg_ = 0f;
       actorId_ = 0;
       id_ = 0;
       uint tag;
@@ -1176,6 +1248,14 @@ namespace ETModel {
           }
           case 45: {
             YRotation = input.ReadFloat();
+            break;
+          }
+          case 53: {
+            NSpeed = input.ReadFloat();
+            break;
+          }
+          case 61: {
+            JumpLeg = input.ReadFloat();
             break;
           }
           case 744: {
